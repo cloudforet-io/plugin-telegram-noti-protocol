@@ -1,1 +1,1 @@
-# plugin-notification-telegram-protocol
+# plugin-telegram-notification-protocol
