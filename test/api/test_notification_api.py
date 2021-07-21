@@ -9,38 +9,31 @@ from spaceone.tester import TestCase, print_json
 _LOGGER = logging.getLogger(__name__)
 
 TOKEN = os.environ.get('TELEGRAM_TOKEN', None)
-bot = telegram.Bot(token=TOKEN)
-updater = Updater(token=TOKEN, use_context=True)
-dispatcher = updater.dispatcher
-updates = bot.get_updates()
-print(updates[1])
-def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a jiyoon bot, plz talk to me!")
+# bot = telegram.Bot(token=TOKEN)
+# bot.send_message(text='SpaceONE TEST NOOO', chat_id='-549309904')
 
-chat_id = updates[0]
-bot.send_message(text='Hi Elyor!! OMG SpaceONE ', chat_id=chat_id)
 if TOKEN == None:
     print("""
 ##################################################
 # ERROR
 #
-# Configure your Slack Token first for test
+# Configure your Telegram Token first for test
 ##################################################
 example)
 
-export SLACK_TOKEN=<YOUR_SLACK_TOKEN>
+export TELEGRAM_TOKEN=<YOUR_TELEGRAM_TOKEN>
 
 """)
     exit
 
 
-class TestSlackNotification(TestCase):
+class TestTelegramNotification(TestCase):
     config = utils.load_yaml_from_file(
         os.environ.get('SPACEONE_TEST_CONFIG_FILE', './config.yml'))
     endpoints = config.get('ENDPOINTS', {})
     secret_data = {
         'token': TOKEN,
-        'channel': 'everyone',
+        'group_name': 'SpaceTestgroup2',
     }
 
     def test_init(self):
@@ -56,7 +49,7 @@ class TestSlackNotification(TestCase):
 
         self.notification.Notification.dispatch({
             'options': options,
-            'message': {'message': 'SAL LYO JU SE YO'},
+            'message': {'message': 'SpaceONE loves me'},  # TODO : QUESTION!!
             'notification_type': 'INFO',
             'secret_data': self.secret_data
         })
