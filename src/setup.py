@@ -21,9 +21,9 @@ with open('VERSION', 'r') as f:
     f.close()
 
 setup(
-    name='plugin-notification-slack-protocol',
+    name='plugin-notification-telegram-protocol',
     version=VERSION,
-    description='Slack notification protocol',
+    description='Telegram notification protocol',
     long_description='',
     url='https://www.spaceone.dev/',
     author='MEGAZONE SpaceONE Team',
@@ -34,7 +34,7 @@ setup(
         'spaceone-core',
         'spaceone-api',
         'spaceone-tester',
-        'slack_sdk'
+        'python-telegram-bot'
     ],
     zip_safe=False,
 )
