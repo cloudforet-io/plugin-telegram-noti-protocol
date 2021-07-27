@@ -32,8 +32,10 @@ class TestTelegramNotification(TestCase):
         os.environ.get('SPACEONE_TEST_CONFIG_FILE', './config.yml'))
     endpoints = config.get('ENDPOINTS', {})
     secret_data = {
-        'token': TOKEN,
-        'group_name': 'SpaceTestgroup2',
+        'token': TOKEN
+    }
+    channel_data = {
+        'group_name': 'SpaceTestgroup2'
     }
 
     def test_init(self):
@@ -45,11 +47,40 @@ class TestTelegramNotification(TestCase):
         self.notification.Protocol.verify({'options': options, 'secret_data': self.secret_data})
 
     def test_dispatch(self):
-        options = {}
+        options = {
+            'group_list': [],
+            'chats_dict': {'-514081686': 'Space3', '-545874019': 'SpaceTestgroup2'}
+        }
 
         self.notification.Notification.dispatch({
             'options': options,
-            'message': {'message': 'SpaceONE loves me'},  # TODO : QUESTION!!
+            'message':
+                {
+                    'title': 'This is title',
+                    'description': 'SpaceONE loves jiyooniiii',
+                    'link': 'www.spaceone.org',
+                    'callbacks': [{'label': 'callback_label', 'url': 'jiyoon', 'options': {}}],
+                    'tags': [
+                        {
+                            'key': 'Alert Number',
+                            'value': '#130900'
+                        },
+                        {
+                            'key': 'State',
+                            'value': 'Triggered'
+                        },
+                        {
+                            'key': 'Triggered By',
+                            'value': 'jiyoon@mz.co.kr'
+                        },
+                        {
+                            'key': 'Project',
+                            'value': 'SpaceONE Dev > Belkin Snow'
+                        }
+                    ],
+                },
+
             'notification_type': 'INFO',
-            'secret_data': self.secret_data
+            'secret_data': self.secret_data,
+            'channel_data': self.channel_data
         })
