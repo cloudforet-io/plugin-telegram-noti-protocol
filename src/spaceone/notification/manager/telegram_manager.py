@@ -13,9 +13,14 @@ class TelegramManager(BaseManager):
     def set_connector(self, token):
         self.conn: TelegramConnector = self.locator.get_connector('TelegramConnector', token=token)
 
-    def send_message(self, chat_id, message, callback, updater, dispatcher):
+    def send_message(self, chat_id, message, **kwargs):
+        callback = kwargs.get('callback')
+        updater = kwargs.get('updater')
+        dispatcher = kwargs.get('dispatcher')
+
         if callback is True:  # if data has callback information
-            task_buttons = [[InlineKeyboardButton(text='Acknowledge Alert', callback_data=1)]]
+            callback_url = kwargs.get('callback_url')
+            task_buttons = [[InlineKeyboardButton(text='✅ Acknowledge Alert ✅', callback_data="ack", url=callback_url)]]
             reply_markup = telegram.InlineKeyboardMarkup(task_buttons)
             self.conn.send_message_callback(chat_id=chat_id, message=message, reply_markup=reply_markup)
 
@@ -23,7 +28,7 @@ class TelegramManager(BaseManager):
                 query = update.callback_query
                 data = query.data
 
-                if data == '1':  # if user push 'Acknowledged' Button TODO : Request URL?
+                if data == 'ack':  # if user push 'Acknowledged' Button
                     context.bot.send_message(chat_id=update.effective_chat.id, text="This alert is acknowledged.")
 
             button_callback_handler = CallbackQueryHandler(acknowledge_callback)

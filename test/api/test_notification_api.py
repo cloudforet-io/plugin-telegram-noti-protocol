@@ -57,9 +57,9 @@ class TestTelegramNotification(TestCase):
             'message':
                 {
                     'title': 'This is title',
-                    'description': 'SpaceONE loves jiyooniiii',
+                    'description': 'SpaceONE loves jiyooniiii2',
                     'link': 'www.spaceone.org',
-                    'callbacks': [{'label': 'callback_label', 'url': 'jiyoon', 'options': {}}],
+                    'callbacks': [{'label': 'callback_label', 'url': 'https://github.com/spaceone-dev', 'options': {}}],
                     'tags': [
                         {
                             'key': 'Alert Number',
@@ -80,7 +80,7 @@ class TestTelegramNotification(TestCase):
                     ],
                 },
 
-            'notification_type': 'INFO',
+            'notification_type': 'ERROR',
             'secret_data': self.secret_data,
             'channel_data': self.channel_data
         })
