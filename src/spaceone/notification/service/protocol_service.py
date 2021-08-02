@@ -14,7 +14,27 @@ class ProtocolService(BaseService):
     def init(self, params):
         """ init plugin by options
         """
-        return {'metadata': {}}
+        return {'metadata': {
+            'data_type': 'SECRET',
+            'data': {
+                        'schema': {
+                            'properties': {
+                                'group_name': {
+                                    'description': 'Name of the group to receive messages in your chats',
+                                    'minLength': 1,
+                                    'title': 'Group Name',
+                                    'type': 'string',
+                                    'examples': ['Spaceone group']
+                                }
+                            },
+                            'required': [
+                                'group_name'
+                            ],
+                            'type': 'object'
+                        }
+                        }
+                }
+        }
 
     @transaction
     @check_required(['options'])

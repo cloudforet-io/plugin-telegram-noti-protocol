@@ -1,0 +1,13 @@
+name: Telegram Notification Protocol
+service_type: notification.Protocol
+image: pyengine/plugin-telegram-notification-protocol
+capability:
+  supported_schema:
+  - telegram_auth_token
+  data_type: SECRET
+tags:
+  description: Telegram
+  "spaceone:plugin_name": Telegram
+  icon: 'https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/telegram.svg'
+provider: telegram
+template: {}
