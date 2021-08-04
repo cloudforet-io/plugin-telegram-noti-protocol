@@ -20,7 +20,7 @@ class TelegramManager(BaseManager):
 
         if callback is True:  # if data has callback information
             callback_url = kwargs.get('callback_url')
-            task_buttons = [[InlineKeyboardButton(text='✅ Acknowledge Alert ✅', callback_data="ack", url=callback_url)]]
+            task_buttons = [[InlineKeyboardButton(text='Acknowledge Alert', callback_data="ack", url=callback_url)]]
             reply_markup = telegram.InlineKeyboardMarkup(task_buttons)
             self.conn.send_message_callback(chat_id=chat_id, message=message, reply_markup=reply_markup)
 

@@ -13,8 +13,6 @@ class TelegramConnector(BaseConnector):
         self.bot = telegram.Bot(token=kwargs.get('token'))
 
     def send_message(self, chat_id, message):
-        print("message in connector")
-        print(message)
         response = self.bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
         return response
 
