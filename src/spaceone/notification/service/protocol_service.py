@@ -19,16 +19,24 @@ class ProtocolService(BaseService):
             'data': {
                         'schema': {
                             'properties': {
-                                'group_name': {
-                                    'description': 'Name of the group to receive messages in your chats',
+                                'chat_id': {
+                                    'description': 'Chat ID of the group to receive messages in your chats. The Chat ID will most likely be a negative number in the form of -#########.',
                                     'minLength': 1,
-                                    'title': 'Group Name',
+                                    'title': 'Chat ID',
                                     'type': 'string',
-                                    'examples': ['Spaceone group']
+                                    'examples': ['-514081686']
+                                },
+                                'token': {
+                                    'description': 'HTTP API token which is your BOT API Token to be used in SpaceONE Alert.',
+                                    'minLength': 1,
+                                    'title': 'BOT API Token',
+                                    'type': 'string',
+                                    'examples': ['XXXXXXXXX: YYYYYYYYYYYYYYYYYYYYYYYYYYYYY']
                                 }
                             },
                             'required': [
-                                'group_name'
+                                'chat_id',
+                                'token'
                             ],
                             'type': 'object'
                         }
