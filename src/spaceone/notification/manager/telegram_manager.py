@@ -14,14 +14,21 @@ class TelegramManager(BaseManager):
         self.conn: TelegramConnector = self.locator.get_connector('TelegramConnector', token=token)
 
     def send_message(self, chat_id, message, **kwargs):
-        callback = kwargs.get('callback')
+        # callback = kwargs.get('callback')
+        callbacks = kwargs.get('callbacks')
         updater = kwargs.get('updater')
         dispatcher = kwargs.get('dispatcher')
 
-        if callback is True:  # if data has callback information
-            callback_url = kwargs.get('callback_url')
-            task_buttons = [[InlineKeyboardButton(text='Acknowledge Alert', callback_data="ack", url=callback_url)]]
-            reply_markup = telegram.InlineKeyboardMarkup(task_buttons)
+        if callbacks:  # if data has callback information
+            # make buttons
+            task_button_list = []
+            for callback in callbacks:
+                label = callback.get('label')
+                url = callback.get('url')
+                task_button = [InlineKeyboardButton(text=label, callback_data="ack", url=url)]
+                task_button_list.append(task_button)
+
+            reply_markup = telegram.InlineKeyboardMarkup(task_button_list)
             self.conn.send_message_callback(chat_id=chat_id, message=message, reply_markup=reply_markup)
 
             def acknowledge_callback(update, context):  # Callback function of 'Acknowledged' button
