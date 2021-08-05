@@ -32,7 +32,6 @@ class NotificationService(BaseService):
         notification_type = params['notification_type']
         message = params['message']
         options = params.get('options')
-        group_list = options.get('group_list')
 
         telegram_token = channel_data.get('token')  # bot token
         chat_id = channel_data.get('chat_id')
@@ -49,11 +48,8 @@ class NotificationService(BaseService):
 
         # Check if callback exists
         if message.get('callbacks'):
-            callback = True
-            kwargs['callback_url'] = message['callbacks'][0].get('url')
-        else:
-            callback = False
-        kwargs['callback'] = callback
+            kwargs['callbacks'] = message['callbacks']
+
         kwargs['updater'] = updater
         kwargs['dispatcher'] = dispatcher
 
