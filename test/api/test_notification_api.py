@@ -28,14 +28,12 @@ export TELEGRAM_TOKEN=<YOUR_TELEGRAM_TOKEN>
 
 
 class TestTelegramNotification(TestCase):
-    config = utils.load_yaml_from_file(
-        os.environ.get('SPACEONE_TEST_CONFIG_FILE', './config.yml'))
+    config = utils.load_yaml_from_file(os.environ.get('SPACEONE_TEST_CONFIG_FILE', './config.yml'))
     endpoints = config.get('ENDPOINTS', {})
-    secret_data = {
-        'token': TOKEN
-    }
+    secret_data = {}
     channel_data = {
-        'group_name': 'SpaceTestgroup2'
+        'token': TOKEN,
+        'chat_id': '-545874019'
     }
 
     def test_init(self):
@@ -59,7 +57,7 @@ class TestTelegramNotification(TestCase):
                     'title': 'This is title',
                     'description': 'SpaceONE loves jiyooniiii2',
                     'link': 'www.spaceone.org',
-                    'callbacks': [{'label': 'callback_label', 'url': 'https://github.com/spaceone-dev', 'options': {}}],
+                    'callbacks': [{'label': 'label1', 'url': 'https://github.com/spaceone-dev', 'options': {}}, {'label': 'label2', 'url': 'https://github.com/spaceone-dev', 'options': {}}],
                     'tags': [
                         {
                             'key': 'Alert Number',
