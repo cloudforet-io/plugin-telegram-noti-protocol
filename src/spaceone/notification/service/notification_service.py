@@ -59,9 +59,15 @@ class NotificationService(BaseService):
     def _make_telegram_message_attachment(self, message, notification_type):
         message_attachments = []
 
-        if message.get('title'):
+        if message.get('link'):
+            if message.get('title'):
+                message.update({
+                    'title': '\n' + '<b>' + f'[{notification_type}]' + '</b> ' + '<a href="' + message['link'] + '"' + '>' + f'{message["title"]}' + '</a>'
+                })
+                message_attachments.append(message['title'])
+        else:
             message.update({
-                'title': '\n' + '<b>' + f'[{notification_type}]' + '</b> ' + '<a href="' + message['link'] + '"' + '>'+f'{message["title"]}' + '</a>'
+                'title': '\n' + '<b>' + f'[{notification_type}]' + '</b> ' + f'{message["title"]}'
             })
             message_attachments.append(message['title'])
 

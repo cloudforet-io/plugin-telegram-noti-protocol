@@ -45,10 +45,7 @@ class TestTelegramNotification(TestCase):
         self.notification.Protocol.verify({'options': options, 'secret_data': self.secret_data})
 
     def test_dispatch(self):
-        options = {
-            'group_list': [],
-            'chats_dict': {'-514081686': 'Space3', '-545874019': 'SpaceTestgroup2'}
-        }
+        options = {}
 
         self.notification.Notification.dispatch({
             'options': options,
@@ -81,4 +78,5 @@ class TestTelegramNotification(TestCase):
             'notification_type': 'ERROR',
             'secret_data': self.secret_data,
             'channel_data': self.channel_data
+            
         })
