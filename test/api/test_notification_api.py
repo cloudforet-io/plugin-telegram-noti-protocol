@@ -78,4 +78,5 @@ class TestTelegramNotification(TestCase):
             'notification_type': 'ERROR',
             'secret_data': self.secret_data,
             'channel_data': self.channel_data
+            
         })
