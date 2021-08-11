@@ -6,7 +6,7 @@ capability:
   - telegram_auth_token
   data_type: SECRET
 tags:
-  description: Telegram
+  description:  Telegram
   "spaceone:plugin_name": Telegram
   icon: 'https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/telegram.svg'
 provider: telegram
