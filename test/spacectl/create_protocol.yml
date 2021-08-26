@@ -1,0 +1,12 @@
+---
+name: Telegram
+plugin_info:
+  plugin_id: plugin-telegram-notification-protocol
+  version: "1.0"
+  options: {}
+  schema: telegram_auth_token
+  secret_data:
+    token: "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    chat_id: "-xxxxxxxxx"
+tags:
+  description: Telegram
