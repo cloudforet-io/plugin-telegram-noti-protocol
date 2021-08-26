@@ -1,0 +1,17 @@
+---
+name: telegram_auth_token
+service_type: secret.credentials
+schema:
+  properties:
+    token:
+      minLength: 10
+      title: Telegram Auth Token
+      type: string
+  required:
+    - token
+    - chat_id
+  type: object
+labels: []
+tags:
+  description: Telegram Authentication Token
+domain_id: domain-d674f2a1fdf4
