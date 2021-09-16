@@ -9,8 +9,6 @@ from spaceone.tester import TestCase, print_json
 _LOGGER = logging.getLogger(__name__)
 
 TOKEN = os.environ.get('TELEGRAM_TOKEN', None)
-# bot = telegram.Bot(token=TOKEN)
-# bot.send_message(text='SpaceONE TEST NOOO', chat_id='-549309904')
 
 if TOKEN == None:
     print("""
@@ -52,9 +50,10 @@ class TestTelegramNotification(TestCase):
             'message':
                 {
                     'title': 'This is title',
-                    'description': 'SpaceONE loves jiyooniiii2',
+                    'description': 'SpaceONE loves jiyooniiii0917',
                     'link': 'www.spaceone.org',
                     'callbacks': [{'label': 'label1', 'url': 'https://github.com/spaceone-dev', 'options': {}}, {'label': 'label2', 'url': 'https://github.com/spaceone-dev', 'options': {}}],
+                    'image_url': 'https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/spaceone_slackbot_icon.png',
                     'tags': [
                         {
                             'key': 'Alert Number',

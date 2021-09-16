@@ -14,10 +14,10 @@ class TelegramManager(BaseManager):
         self.conn: TelegramConnector = self.locator.get_connector('TelegramConnector', token=token)
 
     def send_message(self, chat_id, message, **kwargs):
-        # callback = kwargs.get('callback')
         callbacks = kwargs.get('callbacks')
         updater = kwargs.get('updater')
         dispatcher = kwargs.get('dispatcher')
+        image_url = kwargs.get('image_url')
 
         if callbacks:  # if data has callback information
             # make buttons
@@ -30,6 +30,9 @@ class TelegramManager(BaseManager):
 
             reply_markup = telegram.InlineKeyboardMarkup(task_button_list)
             self.conn.send_message_callback(chat_id=chat_id, message=message, reply_markup=reply_markup)
+
+            if image_url:
+                self.conn.send_photo(chat_id=chat_id, image_url=image_url)
 
             def acknowledge_callback(update, context):  # Callback function of 'Acknowledged' button
                 query = update.callback_query
@@ -44,3 +47,9 @@ class TelegramManager(BaseManager):
 
         else:
             self.conn.send_message(chat_id=chat_id, message=message)
+
+            if image_url:
+                self.conn.send_photo(chat_id=chat_id, image_url=image_url)
+
+    def send_photo(self, chat_id, image_url):
+        self.conn.send_photo(chat_id=chat_id, image_url=image_url)
