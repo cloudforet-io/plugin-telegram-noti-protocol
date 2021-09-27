@@ -50,6 +50,3 @@ class TelegramManager(BaseManager):
 
             if image_url:
                 self.conn.send_photo(chat_id=chat_id, image_url=image_url)
-
-    def send_photo(self, chat_id, image_url):
-        self.conn.send_photo(chat_id=chat_id, image_url=image_url)
