@@ -1,6 +1,6 @@
 name: Telegram Notification Protocol
 service_type: notification.Protocol
-image: pyengine/plugin-telegram-notification-protocol
+image: pyengine/plugin-telegram-noti-protocol
 capability:
   supported_schema:
   - telegram_auth_token

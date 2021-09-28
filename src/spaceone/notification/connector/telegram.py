@@ -19,3 +19,7 @@ class TelegramConnector(BaseConnector):
     def send_message_callback(self, chat_id, message, reply_markup):
         response = self.bot.send_message(chat_id=chat_id, text=message, reply_markup=reply_markup, parse_mode='HTML')
         return response
+
+    def send_photo(self, chat_id, image_url):
+        response = self.bot.send_photo(chat_id=chat_id, photo=image_url)
+        return response

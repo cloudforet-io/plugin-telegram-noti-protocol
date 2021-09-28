@@ -50,6 +50,10 @@ class NotificationService(BaseService):
         if message.get('callbacks'):
             kwargs['callbacks'] = message['callbacks']
 
+        # Check if image_url exists
+        if message.get('image_url'):
+            kwargs['image_url'] = message['image_url']
+
         kwargs['updater'] = updater
         kwargs['dispatcher'] = dispatcher
 
@@ -57,6 +61,31 @@ class NotificationService(BaseService):
         noti_mgr.dispatch(token=telegram_token, chat_id=chat_id, message=final_message, **kwargs)
 
     def _make_telegram_message_attachment(self, message, notification_type):
+        '''
+                message (dict): {
+                    'title': 'str',
+                    'link': 'str',
+                    'image_url': 'str,
+                    'description': bool,
+                    'tags': [
+                        {
+                            'key': '',
+                            'value': '',
+                            'options': {
+                                'short': true|false
+                            }
+                        }
+                    ],
+                    'callbacks': [
+                      {
+                        'label': 'str',
+                        'url': 'str',
+                        'options': 'dict'
+                      }
+                    ],
+                    'occurred_at': 'iso8601'
+                }
+                '''
         message_attachments = []
 
         if message.get('link'):
