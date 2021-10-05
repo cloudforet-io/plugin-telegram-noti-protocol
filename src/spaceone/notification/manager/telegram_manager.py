@@ -1,8 +1,12 @@
 from spaceone.core.manager import BaseManager
 from spaceone.notification.connector.telegram import TelegramConnector
+from spaceone.notification.error.telegram import *
 import telegram
 from telegram import InlineKeyboardButton
 from telegram.ext import CommandHandler, CallbackQueryHandler
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 class TelegramManager(BaseManager):
 
@@ -31,9 +35,6 @@ class TelegramManager(BaseManager):
             reply_markup = telegram.InlineKeyboardMarkup(task_button_list)
             self.conn.send_message_callback(chat_id=chat_id, message=message, reply_markup=reply_markup)
 
-            if image_url:
-                self.conn.send_photo(chat_id=chat_id, image_url=image_url)
-
             def acknowledge_callback(update, context):  # Callback function of 'Acknowledged' button
                 query = update.callback_query
                 data = query.data
@@ -45,8 +46,19 @@ class TelegramManager(BaseManager):
             dispatcher.add_handler(button_callback_handler)
             updater.start_polling()
 
+            if image_url:
+                try:
+                    self.conn.send_photo(chat_id=chat_id, image_url=image_url, kwargs=kwargs)
+                except Exception as e:
+                    _LOGGER.error(ERROR_NOT_FIND_IMAGE_URL())
+
         else:
             self.conn.send_message(chat_id=chat_id, message=message)
 
+
             if image_url:
-                self.conn.send_photo(chat_id=chat_id, image_url=image_url)
+                try:
+                    self.conn.send_photo(chat_id=chat_id, image_url=image_url)
+
+                except ValueError as e:
+                    _LOGGER.error(ERROR_NOT_FIND_IMAGE_URL())
