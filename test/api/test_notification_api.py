@@ -50,10 +50,10 @@ class TestTelegramNotification(TestCase):
             'message':
                 {
                     'title': 'This is title',
-                    'description': 'SpaceONE loves jiyooniiii0917',
+                    'description': 'SpaceONE loves jiyooniiii1005',
                     'link': 'www.spaceone.org',
                     'callbacks': [{'label': 'label1', 'url': 'https://github.com/spaceone-dev', 'options': {}}, {'label': 'label2', 'url': 'https://github.com/spaceone-dev', 'options': {}}],
-                    'image_url': 'https://spaceone-custom-assets.s3.ap-northeast-2.amazonaws.com/console-assets/icons/spaceone_slackbot_icon.png',
+                    # 'image_url': "https://grafana.stargate.cloudeco.io/public/img/attachments/jRGOeqZFxRT4BDrNdIpy.png",
                     'tags': [
                         {
                             'key': 'Alert Number',
