@@ -1,6 +1,7 @@
 import logging
 import telegram
 from spaceone.core.connector import BaseConnector
+from spaceone.notification.error.telegram import *
 
 __all__ = ['TelegramConnector']
 _LOGGER = logging.getLogger(__name__)
@@ -21,6 +22,10 @@ class TelegramConnector(BaseConnector):
         return response
 
     def send_photo(self, chat_id, image_url):
-        response = self.bot.send_photo(chat_id=chat_id, photo=image_url)
-        return response
+        try:
+            response = self.bot.send_photo(chat_id=chat_id, photo=image_url)
+            return response
+
+        except Exception as e:
+            _LOGGER.error(ERROR_NOT_FIND_IMAGE_URL_CONNECTOR)
 
