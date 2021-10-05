@@ -6,4 +6,8 @@ class ERROR_NOT_FIND_CHAT_ID(ERROR_BASE):
 class ERROR_NOT_FIND_IMAGE_URL(ERROR_BASE):
     _message = 'Provided Image URL is not valid'
 
+class ERROR_NOT_FIND_IMAGE_URL_CONNECTOR(ERROR_BASE):
+    _message = 'Provided Image URL is not valid in connector'
+
+
 
