@@ -36,10 +36,10 @@ class NotificationService(BaseService):
         telegram_token = channel_data.get('token')  # bot token
         chat_id = channel_data.get('chat_id')
 
-        updater = Updater(token=telegram_token, use_context=True)
-        dispatcher = updater.dispatcher
-        updater.start_polling()
-        # updater.idle()
+        updater = Updater(token=telegram_token, use_context=True)  # The Updater class continuously patches new updates from the telegram and delivers them to the Dispatch class.
+        dispatcher = updater.dispatcher # Get created dispatcher linked to updater by internal queue
+        updater.start_polling()  # Get bots' update regularly
+        # updater.idle()  # idle() is a function that keeps the update running without ending.
 
         kwargs = {}
 

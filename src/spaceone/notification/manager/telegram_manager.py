@@ -55,7 +55,6 @@ class TelegramManager(BaseManager):
         else:
             self.conn.send_message(chat_id=chat_id, message=message)
 
-
             if image_url:
                 try:
                     self.conn.send_photo(chat_id=chat_id, image_url=image_url)
