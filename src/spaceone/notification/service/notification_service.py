@@ -5,6 +5,7 @@ from telegram.ext import CommandHandler
 from telegram.ext import Updater
 from telegram import InlineKeyboardButton
 from spaceone.core.service import *
+from spaceone.notification.conf.telegram_conf import *
 from spaceone.notification.error import *
 from spaceone.notification.manager.notification_manager import NotificationManager
 
@@ -60,32 +61,33 @@ class NotificationService(BaseService):
         noti_mgr: NotificationManager = self.locator.get_manager('NotificationManager')
         noti_mgr.dispatch(token=telegram_token, chat_id=chat_id, message=final_message, **kwargs)
 
-    def _make_telegram_message_attachment(self, message, notification_type):
-        '''
-                message (dict): {
-                    'title': 'str',
-                    'link': 'str',
-                    'image_url': 'str,
-                    'description': bool,
-                    'tags': [
-                        {
-                            'key': '',
-                            'value': '',
-                            'options': {
-                                'short': true|false
-                            }
-                        }
-                    ],
-                    'callbacks': [
-                      {
-                        'label': 'str',
-                        'url': 'str',
-                        'options': 'dict'
-                      }
-                    ],
-                    'occurred_at': 'iso8601'
+    @staticmethod
+    def _make_telegram_message_attachment(message, notification_type):
+        """
+        message (dict): {
+            'title': 'str',
+            'link': 'str',
+            'image_url': 'str,
+            'description': bool,
+            'tags': [
+                {
+                    'key': '',
+                    'value': '',
+                    'options': {
+                        'short': true|false
+                    }
                 }
-                '''
+            ],
+            'callbacks': [
+              {
+                'label': 'str',
+                'url': 'str',
+                'options': 'dict'
+              }
+            ],
+            'occurred_at': 'iso8601'
+        }
+        """
         message_attachments = []
 
         if message.get('link'):
@@ -106,7 +108,6 @@ class NotificationService(BaseService):
         if message.get('tags'):
             tag_attachments = ''
             for tag in message['tags']:
-
                 # update key
                 key_str = '\n' + '<b>' + "- " + tag['key'] + '</b>'
                 value_str = '<pre>' + tag['value'] + '</pre>'
@@ -116,6 +117,7 @@ class NotificationService(BaseService):
                 tag_attachments += tag_str + " "
 
             message_attachments.append(tag_attachments)
+
         message_final = ' '.join(message_attachments)
 
-        return message_final
+        return message_final[:MAX_MESSAGE_LENGTH]
