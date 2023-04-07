@@ -9,8 +9,9 @@ from spaceone.tester import TestCase, print_json
 _LOGGER = logging.getLogger(__name__)
 
 TOKEN = os.environ.get('TELEGRAM_TOKEN', None)
+CHAT_ID = os.environ.get('CHAT_ID', None)
 
-if TOKEN == None:
+if TOKEN is None or CHAT_ID is None:
     print("""
 ##################################################
 # ERROR
@@ -31,7 +32,7 @@ class TestTelegramNotification(TestCase):
     secret_data = {}
     channel_data = {
         'token': TOKEN,
-        'chat_id': '-545874019'
+        'chat_id': CHAT_ID
     }
 
     def test_init(self):
@@ -50,10 +51,11 @@ class TestTelegramNotification(TestCase):
             'message':
                 {
                     'title': 'This is title',
-                    'description': 'SpaceONE loves jiyooniiii1005',
+                    'description': 'Cloudforet Hi',
                     'link': 'www.spaceone.org',
-                    'callbacks': [{'label': 'label1', 'url': 'https://github.com/spaceone-dev', 'options': {}}, {'label': 'label2', 'url': 'https://github.com/spaceone-dev', 'options': {}}],
-                    # 'image_url': "https://grafana.stargate.cloudeco.io/public/img/attachments/jRGOeqZFxRT4BDrNdIpy.png",
+                    'callbacks': [{'label': 'label1', 'url': 'https://github.com/spaceone-dev', 'options': {}},
+                                {'label': 'label2', 'url': 'https://github.com/spaceone-dev', 'options': {}}],
+                    'image_url': "http://i.imgur.com/pFo28MB.gif",
                     'tags': [
                         {
                             'key': 'Alert Number',
@@ -73,7 +75,6 @@ class TestTelegramNotification(TestCase):
                         }
                     ],
                 },
-
             'notification_type': 'ERROR',
             'secret_data': self.secret_data,
             'channel_data': self.channel_data
