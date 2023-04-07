@@ -1,9 +1,4 @@
 import logging
-import telegram
-
-from telegram.ext import CommandHandler
-from telegram.ext import Updater
-from telegram import InlineKeyboardButton
 from spaceone.core.service import *
 from spaceone.notification.conf.telegram_conf import *
 from spaceone.notification.error import *
@@ -37,26 +32,18 @@ class NotificationService(BaseService):
         telegram_token = channel_data.get('token')  # bot token
         chat_id = channel_data.get('chat_id')
 
-        updater = Updater(token=telegram_token, use_context=True)  # The Updater class continuously patches new updates from the telegram and delivers them to the Dispatch class.
-        dispatcher = updater.dispatcher # Get created dispatcher linked to updater by internal queue
-        updater.start_polling()  # Get bots' update regularly
-        # updater.idle()  # idle() is a function that keeps the update running without ending.
-
         kwargs = {}
 
         # Get Message
         final_message = self._make_telegram_message_attachment(message, notification_type)
 
         # Check if callback exists
-        if message.get('callbacks'):
+        if 'callback' in message:
             kwargs['callbacks'] = message['callbacks']
 
         # Check if image_url exists
-        if message.get('image_url'):
+        if 'image_url' in message:
             kwargs['image_url'] = message['image_url']
-
-        kwargs['updater'] = updater
-        kwargs['dispatcher'] = dispatcher
 
         noti_mgr: NotificationManager = self.locator.get_manager('NotificationManager')
         noti_mgr.dispatch(token=telegram_token, chat_id=chat_id, message=final_message, **kwargs)
