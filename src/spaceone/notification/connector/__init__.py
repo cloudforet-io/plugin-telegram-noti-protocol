@@ -1,1 +1,1 @@
-from spaceone.notification.connector.telegram import TelegramConnector
+from spaceone.notification.connector.telegram_connector import TelegramConnector
