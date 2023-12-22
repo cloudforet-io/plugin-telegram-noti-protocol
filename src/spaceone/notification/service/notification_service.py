@@ -1,3 +1,4 @@
+import html
 import logging
 from spaceone.core.service import *
 from spaceone.notification.conf.telegram_conf import *
@@ -9,12 +10,11 @@ _LOGGER = logging.getLogger(__name__)
 
 @authentication_handler
 class NotificationService(BaseService):
-
     def __init__(self, metadata):
         super().__init__(metadata)
 
     @transaction
-    @check_required(['options', 'message', 'notification_type'])
+    @check_required(["options", "message", "notification_type"])
     def dispatch(self, params):
         """
         Args:
@@ -24,32 +24,35 @@ class NotificationService(BaseService):
                 - notification_type : INFO || ERROR || SUCCESS || WARNING
                 - secret_data
         """
-        channel_data = params.get('channel_data', {})
-        notification_type = params['notification_type']
-        message = params['message']
-        options = params.get('options')
+        channel_data = params.get("channel_data", {})
+        notification_type = params["notification_type"]
+        message = params["message"]
+        options = params.get("options")
 
-        telegram_token = channel_data.get('token')  # bot token
-        chat_id = channel_data.get('chat_id')
+        telegram_token = channel_data.get("token")  # bot token
+        chat_id = channel_data.get("chat_id")
 
         kwargs = {}
 
         # Get Message
-        final_message = self._make_telegram_message_attachment(message, notification_type)
+        final_message = self._make_telegram_message_attachment(
+            message, notification_type
+        )
 
         # Check if callback exists
-        if 'callback' in message:
-            kwargs['callbacks'] = message['callbacks']
+        if "callback" in message:
+            kwargs["callbacks"] = message["callbacks"]
 
         # Check if image_url exists
-        if 'image_url' in message:
-            kwargs['image_url'] = message['image_url']
+        if "image_url" in message:
+            kwargs["image_url"] = message["image_url"]
 
-        noti_mgr: NotificationManager = self.locator.get_manager('NotificationManager')
-        noti_mgr.dispatch(token=telegram_token, chat_id=chat_id, message=final_message, **kwargs)
+        noti_mgr: NotificationManager = self.locator.get_manager("NotificationManager")
+        noti_mgr.dispatch(
+            token=telegram_token, chat_id=chat_id, message=final_message, **kwargs
+        )
 
-    @staticmethod
-    def _make_telegram_message_attachment(message, notification_type):
+    def _make_telegram_message_attachment(self, message, notification_type):
         """
         message (dict): {
             'title': 'str',
@@ -75,29 +78,55 @@ class NotificationService(BaseService):
             'occurred_at': 'iso8601'
         }
         """
+        link = message.get("link")
+        title = self._handle_escape_characters(message.get("title"))
+        print("HERE?")
+        print(title)
+        description = self._handle_escape_characters(message.get("description"))
+        tags = message.get("tags", [])
+
         message_attachments = []
 
-        if message.get('link'):
-            if message.get('title'):
-                message.update({
-                    'title': '\n' + '<b>' + f'[{notification_type}]' + '</b> ' + '<a href="' + message['link'] + '"' + '>' + f'{message["title"]}' + '</a>'
-                })
-                message_attachments.append(message['title'])
+        if link:
+            if title:
+                message.update(
+                    {
+                        "title": "\n"
+                        + "<b>"
+                        + f"[{notification_type}]"
+                        + "</b> "
+                        + '<a href="'
+                        + link
+                        + '"'
+                        + ">"
+                        + f"{title}"
+                        + "</a>"
+                    }
+                )
+                message_attachments.append(message["title"])
         else:
-            message.update({
-                'title': '\n' + '<b>' + f'[{notification_type}]' + '</b> ' + f'{message["title"]}'
-            })
-            message_attachments.append(message['title'])
+            message.update(
+                {
+                    "title": "\n"
+                    + "<b>"
+                    + f"[{notification_type}]"
+                    + "</b> "
+                    + f"{title}"
+                }
+            )
+            message_attachments.append(message["title"])
 
-        if message.get('description'):
-            message_attachments.append('\n' + message['description']+'\n')
+        if description:
+            message_attachments.append("\n" + description + "\n")
 
-        if message.get('tags'):
-            tag_attachments = ''
-            for tag in message['tags']:
+        if tags:
+            tag_attachments = ""
+            for tag in tags:
+                tag_key = self._handle_escape_characters(tag["key"])
+                tag_value = self._handle_escape_characters(tag["value"])
                 # update key
-                key_str = '\n' + '<b>' + "- " + tag['key'] + '</b>'
-                value_str = '<pre>' + tag['value'] + '</pre>'
+                key_str = "\n" + "<b>" + "- " + tag_key + "</b>"
+                value_str = "<pre>" + tag_value + "</pre>"
 
                 # update tag
                 tag_str = key_str + ": " + value_str
@@ -105,6 +134,10 @@ class NotificationService(BaseService):
 
             message_attachments.append(tag_attachments)
 
-        message_final = ' '.join(message_attachments)
+        message_final = " ".join(message_attachments)
 
         return message_final[:MAX_MESSAGE_LENGTH]
+
+    @staticmethod
+    def _handle_escape_characters(message_string):
+        return html.escape(message_string)

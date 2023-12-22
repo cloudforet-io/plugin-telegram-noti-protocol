@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.9-slim
 
 ENV PYTHONUNBUFFERED 1
 ENV CLOUDONE_PORT 50051
@@ -25,4 +25,4 @@ RUN python3 setup.py install && \
 EXPOSE ${CLOUDONE_PORT}
 
 ENTRYPOINT ["spaceone"]
-CMD ["grpc", "spaceone.notification"]
+CMD ["run", "grpc-server", "spaceone.notification", "-m", "/opt"]
