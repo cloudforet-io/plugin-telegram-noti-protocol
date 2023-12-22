@@ -80,10 +80,8 @@ class NotificationService(BaseService):
         """
         link = message.get("link")
         title = self._handle_escape_characters(message.get("title"))
-        print("HERE?")
-        print(title)
         description = self._handle_escape_characters(message.get("description"))
-        tags = message.get("tags", [])
+        tags = message.get("tags")
 
         message_attachments = []
 
@@ -140,4 +138,6 @@ class NotificationService(BaseService):
 
     @staticmethod
     def _handle_escape_characters(message_string):
+        if not message_string:
+            message_string = ""
         return html.escape(message_string)

@@ -53,8 +53,8 @@ class TestTelegramNotification(TestCase):
             {
                 "options": options,
                 "message": {
-                    "title": "hcc-com|RDS|FreeableMemory|<|500000000|wdp-uni-rds-uni-evo",
-                    "description": "Threshold Crossed: 3 out of the last 5 datapoints [4.9580032E8 (21/12/23 08:27:00), 4.96119808E8 (21/12/23 08:26:00), 4.96439296E8 (21/12/23 08:25:00)] were less than the threshold (5.0E8) (minimum 3 datapoints for OK -> ALARM transition).",
+                    "title": "",
+                    "description": "Threshold Crossed: 3 out of the last 5 datapoints [] were less than the threshold.",
                     "link": "www.spaceone.org",
                     "callbacks": [
                         {
