@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM cloudforet/python-core:2
 
 ENV PYTHONUNBUFFERED 1
 ENV CLOUDONE_PORT 50051
@@ -14,7 +14,7 @@ RUN pip install --upgrade pip && \
     pip install --upgrade -r ${PKG_DIR}/pip_requirements.txt
 
 ARG CACHEBUST=1
-RUN pip install --upgrade --pre spaceone-core spaceone-api
+RUN pip install --upgrade spaceone-api
 
 COPY src ${SRC_DIR}
 
