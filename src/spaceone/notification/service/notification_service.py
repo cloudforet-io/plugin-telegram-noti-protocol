@@ -90,15 +90,15 @@ class NotificationService(BaseService):
                 message.update(
                     {
                         "title": "\n"
-                        + "<b>"
-                        + f"[{notification_type}]"
-                        + "</b> "
-                        + '<a href="'
-                        + link
-                        + '"'
-                        + ">"
-                        + f"{title}"
-                        + "</a>"
+                                 + "<b>"
+                                 + f"[{notification_type}]"
+                                 + "</b> "
+                                 + '<a href="'
+                                 + link
+                                 + '"'
+                                 + ">"
+                                 + f"{title}"
+                                 + "</a>"
                     }
                 )
                 message_attachments.append(message["title"])
@@ -106,10 +106,10 @@ class NotificationService(BaseService):
             message.update(
                 {
                     "title": "\n"
-                    + "<b>"
-                    + f"[{notification_type}]"
-                    + "</b> "
-                    + f"{title}"
+                             + "<b>"
+                             + f"[{notification_type}]"
+                             + "</b> "
+                             + f"{title}"
                 }
             )
             message_attachments.append(message["title"])
