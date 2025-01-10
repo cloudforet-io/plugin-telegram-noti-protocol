@@ -1,7 +1,6 @@
 import logging
 import telegram
 from spaceone.core.connector import BaseConnector
-from spaceone.notification.error.telegram_error import *
 
 __all__ = ['TelegramConnector']
 _LOGGER = logging.getLogger(__name__)
@@ -23,8 +22,10 @@ class TelegramConnector(BaseConnector):
             if image_url:
                 await self.bot.send_photo(chat_id=chat_id, photo=image_url)
         except telegram.error.BadRequest as e:
-            _LOGGER.error(f'[send_message] Error: {e.message}', exc_info=True)
+            _LOGGER.error(f'[send_message] Error: {e.message} ', exc_info=True)
+            _LOGGER.debug(f'[send_message] Sending text message as fallback, chat_id: {chat_id}')
             await self.bot.send_message(chat_id=chat_id, text=message)
         except Exception as e:
             _LOGGER.error(f'[send_message] Error: {e}', exc_info=True)
+            _LOGGER.debug(f'[send_message] Sending text message as fallback, chat_id: {chat_id}')
             await self.bot.send_message(chat_id=chat_id, text=message)
