@@ -4,12 +4,12 @@ from spaceone.core.service import *
 _LOGGER = logging.getLogger(__name__)
 
 
-@authentication_handler
 class ProtocolService(BaseService):
 
     def __init__(self, metadata):
         super().__init__(metadata)
 
+    @transaction
     @check_required(['options'])
     def init(self, params):
         """ init plugin by options
@@ -17,31 +17,31 @@ class ProtocolService(BaseService):
         return {'metadata': {
             'data_type': 'SECRET',
             'data': {
-                        'schema': {
-                            'properties': {
-                                'chat_id': {
-                                    'description': 'Chat ID of the group to receive messages in your chats. The Chat ID will most likely be a negative number in the form of -#########.',
-                                    'minLength': 1,
-                                    'title': 'Chat ID',
-                                    'type': 'string',
-                                    'examples': ['-514081686']
-                                },
-                                'token': {
-                                    'description': 'HTTP API token which is your BOT API Token to be used in SpaceONE Alert.',
-                                    'minLength': 1,
-                                    'title': 'BOT API Token',
-                                    'type': 'string',
-                                    'examples': ['XXXXXXXXX: YYYYYYYYYYYYYYYYYYYYYYYYYYYYY']
-                                }
-                            },
-                            'required': [
-                                'chat_id',
-                                'token'
-                            ],
-                            'type': 'object'
+                'schema': {
+                    'properties': {
+                        'chat_id': {
+                            'description': 'Chat ID of the group to receive messages in your chats. The Chat ID will most likely be a negative number in the form of -#########.',
+                            'minLength': 1,
+                            'title': 'Chat ID',
+                            'type': 'string',
+                            'examples': ['-514081686']
+                        },
+                        'token': {
+                            'description': 'HTTP API token which is your BOT API Token to be used in SpaceONE Alert.',
+                            'minLength': 1,
+                            'title': 'BOT API Token',
+                            'type': 'string',
+                            'examples': ['XXXXXXXXX: YYYYYYYYYYYYYYYYYYYYYYYYYYYYY']
                         }
-                        }
+                    },
+                    'required': [
+                        'chat_id',
+                        'token'
+                    ],
+                    'type': 'object'
                 }
+            }
+        }
         }
 
     @transaction
