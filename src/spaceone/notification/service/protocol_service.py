@@ -5,6 +5,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class ProtocolService(BaseService):
+    resource = 'Protocol'
 
     def __init__(self, metadata):
         super().__init__(metadata)

@@ -13,10 +13,10 @@ class TelegramManager(BaseManager):
         super().__init__(*args, **kwargs)
         self.conn = None
 
-    def set_connector(self, token):
+    def set_connector(self, token: str) -> None:
         self.conn: TelegramConnector = self.locator.get_connector('TelegramConnector', token=token)
 
-    def send_message(self, chat_id, message, **kwargs):
+    def send_message(self, chat_id: str, message, **kwargs):
         image_url = kwargs.get('image_url')
         callbacks = kwargs.get('callbacks')
         reply_markup = None

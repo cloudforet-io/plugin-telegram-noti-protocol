@@ -1,6 +1,7 @@
 from spaceone.core.manager import BaseManager
 from spaceone.notification.manager.telegram_manager import TelegramManager
 
+
 class NotificationManager(BaseManager):
 
     def __init__(self, *args, **kwargs):
