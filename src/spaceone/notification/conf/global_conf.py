@@ -1,3 +1,4 @@
+MAX_WORKERS = 8
 CONNECTORS = {
 }
 
