@@ -11,14 +11,26 @@ _LOGGER = logging.getLogger(__name__)
 def retry_handler(times: int = 3) -> callable:
     def decorator(func):
         async def wrapper(*args, **kwargs):
-            for i in range(times):
+            if times < 0:
+                raise ValueError(f'[retry_request] Invalid times: {times}')
+
+            for attempt in range(times + 1):
                 try:
                     return await func(*args, **kwargs)
+                except telegram.error.InvalidToken as e:
+                    _LOGGER.error(f'[retry_request] Invalid token error: {e.message}')
+                    raise
+                except telegram.error.BadRequest as e:
+                    if "chat not found" in e.message.lower():
+                        _LOGGER.error(f'[retry_request] Chat not found error: {e.message}')
+                        raise
+                    _LOGGER.warning(f'[retry_request] BadRequest error: {e.message}, retrying...')
                 except Exception as e:
-                    _LOGGER.error(f'[retry_request] Error: {e}, retry {i}', exc_info=True)
-                    await asyncio.sleep(1)
+                    _LOGGER.error(f'[retry_request] Unexpected error: {e}, retry {attempt}', exc_info=True)
 
-            raise Exception(f'[retry_request] Retry failed after {times} times')
+                await asyncio.sleep(1)
+
+            raise Exception(f'[retry_request] Retry failed after {times} attempts')
 
         return wrapper
 
